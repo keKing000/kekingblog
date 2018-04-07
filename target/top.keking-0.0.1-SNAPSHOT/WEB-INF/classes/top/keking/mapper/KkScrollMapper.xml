@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.keking.mapper.KkScrollMapper" >
+  <resultMap id="BaseResultMap" type="top.keking.pojo.KkScroll" >
+    <id column="scrollId" property="scrollid" jdbcType="VARCHAR" />
+    <result column="scrollTitle" property="scrolltitle" jdbcType="VARCHAR" />
+    <result column="blogId" property="blogid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="scrollImg" property="scrollimg" jdbcType="VARCHAR" />
+    <result column="creatDate" property="creatdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    scrollId, scrollTitle, blogId, status, scrollImg, creatDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="top.keking.pojo.KkScrollExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kk_scroll
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from kk_scroll
+    where scrollId = #{scrollid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from kk_scroll
+    where scrollId = #{scrollid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="top.keking.pojo.KkScrollExample" >
+    delete from kk_scroll
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="top.keking.pojo.KkScroll" >
+    insert into kk_scroll (scrollId, scrollTitle, blogId, 
+      status, scrollImg, creatDate
+      )
+    values (#{scrollid,jdbcType=VARCHAR}, #{scrolltitle,jdbcType=VARCHAR}, #{blogid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{scrollimg,jdbcType=VARCHAR}, #{creatdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="top.keking.pojo.KkScroll" >
+    insert into kk_scroll
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scrollid != null" >
+        scrollId,
+      </if>
+      <if test="scrolltitle != null" >
+        scrollTitle,
+      </if>
+      <if test="blogid != null" >
+        blogId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="scrollimg != null" >
+        scrollImg,
+      </if>
+      <if test="creatdate != null" >
+        creatDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scrollid != null" >
+        #{scrollid,jdbcType=VARCHAR},
+      </if>
+      <if test="scrolltitle != null" >
+        #{scrolltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogid != null" >
+        #{blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="scrollimg != null" >
+        #{scrollimg,jdbcType=VARCHAR},
+      </if>
+      <if test="creatdate != null" >
+        #{creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="top.keking.pojo.KkScrollExample" resultType="java.lang.Integer" >
+    select count(*) from kk_scroll
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update kk_scroll
+    <set >
+      <if test="record.scrollid != null" >
+        scrollId = #{record.scrollid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scrolltitle != null" >
+        scrollTitle = #{record.scrolltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogid != null" >
+        blogId = #{record.blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.scrollimg != null" >
+        scrollImg = #{record.scrollimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatdate != null" >
+        creatDate = #{record.creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update kk_scroll
+    set scrollId = #{record.scrollid,jdbcType=VARCHAR},
+      scrollTitle = #{record.scrolltitle,jdbcType=VARCHAR},
+      blogId = #{record.blogid,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      scrollImg = #{record.scrollimg,jdbcType=VARCHAR},
+      creatDate = #{record.creatdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="top.keking.pojo.KkScroll" >
+    update kk_scroll
+    <set >
+      <if test="scrolltitle != null" >
+        scrollTitle = #{scrolltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogid != null" >
+        blogId = #{blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="scrollimg != null" >
+        scrollImg = #{scrollimg,jdbcType=VARCHAR},
+      </if>
+      <if test="creatdate != null" >
+        creatDate = #{creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where scrollId = #{scrollid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.keking.pojo.KkScroll" >
+    update kk_scroll
+    set scrollTitle = #{scrolltitle,jdbcType=VARCHAR},
+      blogId = #{blogid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      scrollImg = #{scrollimg,jdbcType=VARCHAR},
+      creatDate = #{creatdate,jdbcType=TIMESTAMP}
+    where scrollId = #{scrollid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectScrollList" parameterType="int" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"></include>
+  	from kk_scroll
+  	where status=0
+  	order by creatDate desc
+  	limit 0,#{count}
+  </select>
+</mapper>

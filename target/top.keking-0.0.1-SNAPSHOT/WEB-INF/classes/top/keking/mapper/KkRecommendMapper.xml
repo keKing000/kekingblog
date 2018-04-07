@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.keking.mapper.KkRecommendMapper" >
+  <resultMap id="BaseResultMap" type="top.keking.pojo.KkRecommend" >
+    <id column="recommendId" property="recommendid" jdbcType="VARCHAR" />
+    <result column="blogId" property="blogid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="creatDate" property="creatdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    recommendId, blogId, status, creatDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="top.keking.pojo.KkRecommendExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kk_recommend
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from kk_recommend
+    where recommendId = #{recommendid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from kk_recommend
+    where recommendId = #{recommendid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="top.keking.pojo.KkRecommendExample" >
+    delete from kk_recommend
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="top.keking.pojo.KkRecommend" >
+    insert into kk_recommend (recommendId, blogId, status, 
+      creatDate)
+    values (#{recommendid,jdbcType=VARCHAR}, #{blogid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{creatdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="top.keking.pojo.KkRecommend" >
+    insert into kk_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recommendid != null" >
+        recommendId,
+      </if>
+      <if test="blogid != null" >
+        blogId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="creatdate != null" >
+        creatDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recommendid != null" >
+        #{recommendid,jdbcType=VARCHAR},
+      </if>
+      <if test="blogid != null" >
+        #{blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creatdate != null" >
+        #{creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="top.keking.pojo.KkRecommendExample" resultType="java.lang.Integer" >
+    select count(*) from kk_recommend
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update kk_recommend
+    <set >
+      <if test="record.recommendid != null" >
+        recommendId = #{record.recommendid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogid != null" >
+        blogId = #{record.blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatdate != null" >
+        creatDate = #{record.creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update kk_recommend
+    set recommendId = #{record.recommendid,jdbcType=VARCHAR},
+      blogId = #{record.blogid,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      creatDate = #{record.creatdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="top.keking.pojo.KkRecommend" >
+    update kk_recommend
+    <set >
+      <if test="blogid != null" >
+        blogId = #{blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="creatdate != null" >
+        creatDate = #{creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where recommendId = #{recommendid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.keking.pojo.KkRecommend" >
+    update kk_recommend
+    set blogId = #{blogid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      creatDate = #{creatdate,jdbcType=TIMESTAMP}
+    where recommendId = #{recommendid,jdbcType=VARCHAR}
+  </update>
+  <resultMap type="top.keking.pojo.KkRecommend" id="RecommendBlogList">
+  	<id column="recommendId" property="recommendid" />
+    <collection property="blog" ofType="top.keking.pojo.KkBlog">
+    	<id column="blogId" property="blogid" />
+    	<result column="blogTitle" property="blogtitle"/>
+    	<collection property="user" ofType="top.keking.pojo.KkUser">
+    		<id column="userId" property="userid" />
+    		<result column="userPic" property="userpic"/>
+    	</collection>
+    </collection>
+  </resultMap>
+  <select id="selectRecommendList" parameterType="int" resultMap="RecommendBlogList">
+  	select
+  	kk_recommend.recommendId, kk_blog.blogTitle, kk_blog.blogId, kk_user.userId, kk_user.userPic
+  	from kk_recommend
+  	join kk_blog
+  	on kk_recommend.blogId=kk_blog.blogId
+  	join kk_user
+  	on kk_blog.userId=kk_user.userId
+  	where kk_recommend.status=0
+  	order by kk_recommend.creatDate desc
+  	limit 0,#{count}
+  </select>
+</mapper>
