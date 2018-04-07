@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+.picies {
+	margin: 5px 5px;
+	width: 100px;
+	height: 100px;
+	border: 2px solid;
+	border-color: #FFF;
+	float: left;
+	position: relative;
+}
+
+.right {
+	position: absolute;
+	left: 25px;
+	top: 25px;
+	display: none;
+}

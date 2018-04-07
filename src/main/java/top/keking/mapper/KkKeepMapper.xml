@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.keking.mapper.KkKeepMapper" >
+  <resultMap id="BaseResultMap" type="top.keking.pojo.KkKeep" >
+    <id column="keepId" property="keepid" jdbcType="VARCHAR" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="blogId" property="blogid" jdbcType="VARCHAR" />
+    <result column="creatDate" property="creatdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    keepId, userId, blogId, creatDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="top.keking.pojo.KkKeepExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kk_keep
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from kk_keep
+    where keepId = #{keepid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from kk_keep
+    where keepId = #{keepid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="top.keking.pojo.KkKeepExample" >
+    delete from kk_keep
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="top.keking.pojo.KkKeep" >
+    insert into kk_keep (keepId, userId, blogId, 
+      creatDate)
+    values (#{keepid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{blogid,jdbcType=VARCHAR}, 
+      #{creatdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="top.keking.pojo.KkKeep" >
+    insert into kk_keep
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="keepid != null" >
+        keepId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="blogid != null" >
+        blogId,
+      </if>
+      <if test="creatdate != null" >
+        creatDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="keepid != null" >
+        #{keepid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="blogid != null" >
+        #{blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="creatdate != null" >
+        #{creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="top.keking.pojo.KkKeepExample" resultType="java.lang.Integer" >
+    select count(*) from kk_keep
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update kk_keep
+    <set >
+      <if test="record.keepid != null" >
+        keepId = #{record.keepid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogid != null" >
+        blogId = #{record.blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatdate != null" >
+        creatDate = #{record.creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update kk_keep
+    set keepId = #{record.keepid,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      blogId = #{record.blogid,jdbcType=VARCHAR},
+      creatDate = #{record.creatdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="top.keking.pojo.KkKeep" >
+    update kk_keep
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="blogid != null" >
+        blogId = #{blogid,jdbcType=VARCHAR},
+      </if>
+      <if test="creatdate != null" >
+        creatDate = #{creatdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where keepId = #{keepid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.keking.pojo.KkKeep" >
+    update kk_keep
+    set userId = #{userid,jdbcType=VARCHAR},
+      blogId = #{blogid,jdbcType=VARCHAR},
+      creatDate = #{creatdate,jdbcType=TIMESTAMP}
+    where keepId = #{keepid,jdbcType=VARCHAR}
+  </update>
+  <resultMap type="top.keking.pojo.KkBlog" id="BlogUserCollListResultMap">
+  	<id column="blogId" property="blogid" />
+    <result column="userId" property="userid" />
+    <result column="blogTitle" property="blogtitle" />
+    <result column="descId" property="descid" />
+    <result column="creatDate" property="creatdate" />
+    <result column="updateDate" property="updatedate" />
+    <result column="keepNum" property="keepnum" />
+    <result column="readNum" property="readnum" />
+    <result column="reviewNum" property="reviewnum" />
+    <result column="status" property="status" />
+    <association property="user" javaType="top.keking.pojo.KkUser">
+    	<id column="userId" property="userid" />
+    	<result column="userName" property="username"/>
+    	<result column="userPic" property="userpic"/>
+    </association>
+  </resultMap>
+  <!-- 我的收藏分页查询 -->
+  <select id="selectCollToPageList" parameterType="map" resultMap="BlogUserCollListResultMap">
+  	select
+  	kk_blog.blogId, kk_blog.userId, kk_blog.blogTitle, kk_blog.descId, kk_blog.creatDate, kk_blog.updateDate, kk_blog.keepNum, kk_blog.readNum, kk_blog.reviewNum, kk_blog.status, kk_user.userId, kk_user.userName, kk_user.userPic 
+  	from kk_keep
+  	join kk_blog
+  	on kk_keep.blogId=kk_blog.blogId
+  	join kk_user
+  	on kk_blog.userId=kk_user.userId 
+  	where
+  	kk_keep.userId=#{userId}
+  	order by kk_keep.creatDate desc
+  	limit #{start},#{count}
+  </select>
+</mapper>

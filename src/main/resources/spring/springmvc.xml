@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<context:component-scan base-package="top.keking.controller" />
+	<!-- 图片保存路径配置文件 -->
+	<context:property-placeholder location="classpath:conf/config.properties"/>
+	<mvc:annotation-driven />
+	<mvc:view-controller path="/error" view-name="error"/>
+	<bean id="customExceptionHandler" class="top.keking.exception.CustomExceptionHandler"></bean>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/"/>
+			<mvc:mapping path="/page/**"/>
+			<mvc:mapping path="/blog/**"/>
+			<bean class="top.keking.controller.interceptor.CustomInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!-- 请求写博客页面时检查用户登录状态 -->
+			<mvc:mapping path="/page/editor.html"/>
+			<!-- 请求个人中心页面时检查用户登录状态 -->
+			<mvc:mapping path="/page/set**"/>
+			<!-- 请求网站管理页面时检查用户登录状态 -->
+			<mvc:mapping path="/page/manager**"/>
+			<bean class="top.keking.controller.interceptor.LoginIterceptor"/>
+		</mvc:interceptor>
+		<!-- 用户修改个人信息后将信息重新添加到session和cookie -->
+		<mvc:interceptor>
+			<mvc:mapping path="/user/update/**"/>
+			<bean class="top.keking.controller.interceptor.UpdateUserInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 定义文件上传解析器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设定默认编码 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 设定文件上传的最大值10MB，10*1024*1024 -->
+		<property name="maxUploadSize" value="10485760"></property>
+	</bean>
+	
+	
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/pic/" mapping="/pic/**"/>
+	<mvc:resources location="/picies/" mapping="/picies/**"/>
+	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
+	<mvc:resources location="/images/" mapping="/images/**"/>
+	<mvc:resources location="/kindeditor/" mapping="/kindeditor/**"/>
+
+	
+</beans>
